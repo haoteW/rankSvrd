@@ -5,10 +5,16 @@
 
 RankService::RankService(const std::string& redisUri) {
     redis_ = std::make_shared<sw::redis::Redis>(redisUri);
+#ifdef USE_TOP_K_COUNT
+    pRankUpdater_ = new RankUpdater(redis_, key_, USE_TOP_K_COUNT);
+#endif
 }
 
 void RankService::SubmitScore(const std::string& userId, double score) {
     redis_->zadd(key_, userId, score);
+#ifdef USE_TOP_K_COUNT
+    pRankUpdater_->submit(userId, score);
+#endif
 }
 
 double RankService::GetScore(const std::string& userId) {

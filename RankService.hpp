@@ -5,6 +5,9 @@
 #include <utility>
 #include <memory>
 #include <sw/redis++/redis++.h>
+#include "RankUpdater.hpp"
+
+#define USE_TOP_K_COUNT 1000
 
 class RankService {
 public:
@@ -16,4 +19,7 @@ public:
 private:
     std::shared_ptr<sw::redis::Redis> redis_;
     const std::string key_ = "game_rank";
+#ifdef USE_TOP_K_COUNT
+    RankUpdater* pRankUpdater_;
+#endif
 };

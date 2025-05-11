@@ -36,6 +36,7 @@ include_directories(${crow_SOURCE_DIR}/include)
 add_executable(rank_server
     main.cpp
     RankService.cpp
+    RankUpdater.cpp
 )
 
 target_link_libraries(rank_server
